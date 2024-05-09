@@ -1,21 +1,22 @@
-package com.example.Gluco_APP.Model; // Assurez-vous que le package est correct
+package com.example.Gluco_APP.Model;
 
-import jakarta.persistence.*; // Importations appropriées
-import java.util.List; // Importations si nécessaire
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "doctor") // Nom de la table
-public class Doctor { // Assurez-vous de la définition correcte de la classe
-
+@Table(name = "doctor")
+public class Doctor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Génération automatique de l'ID
-    private Long id; // Assurez-vous que le type d'identifiant est `Long`
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nom;
+    private String prenom; // Ajout de la propriété 'prenom'
+    private String telephone;
+    private String motDePasse;
 
-    // Autres propriétés de `Doctor`
-    private String name; // Exemple de propriété
-    // Ajoutez d'autres propriétés comme nécessaire
+    public Doctor() {
+    }
 
-    // Getters et Setters
+    // Getters et Setters pour id, nom, prenom, telephone et motDePasse
     public Long getId() {
         return id;
     }
@@ -24,12 +25,36 @@ public class Doctor { // Assurez-vous de la définition correcte de la classe
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNom() {
+        return nom;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
     }
 }
 

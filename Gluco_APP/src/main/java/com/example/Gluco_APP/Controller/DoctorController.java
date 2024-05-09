@@ -1,62 +1,58 @@
 package com.example.Gluco_APP.Controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.net.URI;
 import java.util.List; // Pour renvoyer des collections
 import java.util.Optional; // Pour gérer les valeurs optionnelles
 import com.example.Gluco_APP.Model.Doctor; // Importation de l'entité
 import com.example.Gluco_APP.Repository.DoctorRepository; // Importation du repository
-
+import com.example.Gluco_APP.Service.DoctorService;
+import com.example.Gluco_APP.Service.DoctorServiceimpl;
 @RestController
-@RequestMapping("/api/doctors") // Chemin de base pour les routes liées aux médecins
+@RequestMapping("/api/doctors")
 public class DoctorController {
-
-    private final DoctorRepository doctorRepository; // Injection du repository
-
+    private final DoctorRepository doctorRepository;
     @Autowired
     public DoctorController(DoctorRepository doctorRepository) {
-        this.doctorRepository = doctorRepository; // Initialisation du repository
+        this.doctorRepository = doctorRepository;
     }
-
-    @GetMapping("/") // Point de terminaison pour obtenir la liste de tous les médecins
+    @GetMapping
     public ResponseEntity<List<Doctor>> getAllDoctors() {
-        List<Doctor> doctors = doctorRepository.findAll(); // Obtenir tous les médecins
-        return ResponseEntity.ok(doctors); // Retourner la liste des médecins
+        List<Doctor> doctors = doctorRepository.findAll();
+        return ResponseEntity.ok().body(doctors);
     }
 
-    @GetMapping("/{id}") // Point de terminaison pour obtenir un médecin par ID
+    @GetMapping("/{id}")
     public ResponseEntity<Doctor> getDoctorById(@PathVariable Long id) {
-        Optional<Doctor> doctor = doctorRepository.findById(id); // Rechercher le médecin par ID
-        return doctor.map(ResponseEntity::ok) // Si trouvé, retourner le médecin
-                .orElse(ResponseEntity.notFound().build()); // Si non trouvé, retourner 404
+        Optional<Doctor> doctor = doctorRepository.findById(id);
+        return doctor.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
-
-    @PostMapping("/") // Point de terminaison pour créer un nouveau médecin
+    @PostMapping
     public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
-        Doctor savedDoctor = doctorRepository.save(doctor); // Sauvegarder le médecin
-        return ResponseEntity.status(201).body(savedDoctor); // Retourner le médecin créé avec code 201
+        Doctor savedDoctor = doctorRepository.save(doctor);
+        return ResponseEntity.created(URI.create("/api/doctors/" + savedDoctor.getId())).body(savedDoctor);
     }
-
-    @PutMapping("/{id}") // Point de terminaison pour mettre à jour un médecin par ID
+    @PutMapping("/{id}")
     public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody Doctor doctorDetails) {
-        return doctorRepository.findById(id) // Rechercher le médecin par ID
+        return doctorRepository.findById(id)
                 .map(existingDoctor -> {
-                    // Mettre à jour les détails du médecin
-                    existingDoctor.setName(doctorDetails.getName());
-                    Doctor updatedDoctor = doctorRepository.save(existingDoctor); // Sauvegarder les changements
-                    return ResponseEntity.ok(updatedDoctor); // Retourner le médecin mis à jour
+                    existingDoctor.setNom(doctorDetails.getNom());
+                    Doctor updatedDoctor = doctorRepository.save(existingDoctor);
+                    return ResponseEntity.ok().body(updatedDoctor);
                 })
-                .orElse(ResponseEntity.notFound().build()); // Si non trouvé, retourner 404
+                .orElse(ResponseEntity.notFound().build());
     }
-
-    @DeleteMapping("/{id}") // Point de terminaison pour supprimer un médecin par ID
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
-        if (doctorRepository.existsById(id)) { // Si le médecin existe
-            doctorRepository.deleteById(id); // Supprimer le médecin
-            return ResponseEntity.noContent().build(); // Retourner 204 (sans contenu)
+        if (doctorRepository.existsById(id)) {
+            doctorRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build(); // Si non trouvé, retourner 404
+            return ResponseEntity.notFound().build();
         }
     }
+
 }
+

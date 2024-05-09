@@ -4,7 +4,6 @@ import com.example.Gluco_APP.Service.GlucoseDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +28,6 @@ public class DataController {
         return ResponseEntity.ok("Niveau de glucose reçu : " + glucoseLevel);
 
     }
-
-
     // Point de terminaison pour obtenir des données de glucose actuelles via GET
     @GetMapping("/current")
     public ResponseEntity<List<Map<String, Object>>> getCurrentGlucoseData() {
@@ -38,8 +35,6 @@ public class DataController {
         List<Map<String, Object>> glucoseDataList = dataService.getCurrentGlucoseDataList();
         return ResponseEntity.ok(glucoseDataList);
     }
-
-
     // Point de terminaison pour enregistrer des données de glucose via POST
 
     }

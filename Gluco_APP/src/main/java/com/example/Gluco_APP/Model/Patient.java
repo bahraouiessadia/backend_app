@@ -1,57 +1,59 @@
 package com.example.Gluco_APP.Model;
-import jakarta.persistence.*; // Importations nécessaires
-import java.util.List; // Importations nécessaires
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "patient") // Nom de la table dans la base de données
-public class Patient extends Userr { // Classe qui étend `Userr`
-
+@Table(name = "patient")
+public class Patient {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Génération automatique de l'ID
-    private Long id; // Clé primaire auto-générée
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nom;
+    private String prenom;
+    private String telephone;
+    private String motDePasse;
 
-    @Column(name = "id_patient", unique = true) // Nom de la colonne
-    private String idPatient; // Propriété avec un nom cohérent
+    // Getters et Setters pour id, nom, prenom, telephone et motDePasse
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id") // Correction du nom de la colonne
-    private Doctor doctor; // Relation avec `Doctor`
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true) // Configuration de la relation
-    private List<GlucoseRecord> glucoseRecords; // Collection d'enregistrements de glucose
-
-    // Constructeur par défaut requis par JPA
-    public Patient() {}
-
-    // Getters et Setters
+    public Patient() {
+    }
     public Long getId() {
         return id;
     }
-
-    public Doctor getDoctor() {
-        return doctor;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public String getNom() {
+        return nom;
     }
 
-    public List<GlucoseRecord> getGlucoseRecords() {
-        return glucoseRecords;
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setGlucoseRecords(List<GlucoseRecord> glucoseRecords) {
-        this.glucoseRecords = glucoseRecords;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
-    public String getIdPatient() { // Correction du nom de la méthode
-        return idPatient;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setIdPatient(String idPatient) { // Correction du nom de la méthode
-        this.idPatient = idPatient;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
+    public String getMotDePasse() {
+        return motDePasse;
+    }
 
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
 }
 
